@@ -504,3 +504,104 @@ body.body-login-page {
     padding-left: 0;
   }
 }
+/* =========================================
+   MOBİL İYİLEŞTİRMELERİ (STYLE.CSS EN ALTINA EKLE)
+   ========================================= */
+
+@media (max-width: 768px) {
+
+  /* 1. GENEL AYARLAR */
+  body {
+    /* Mobilde o soldaki boşluğu sıfırla */
+    padding-left: 0 !important;
+    justify-content: center !important;
+    background-image: none; /* Mobilde arkaplan resmini kaldır, sade olsun */
+    background-color: #f5f7f9; /* Hafif gri modern bir ton */
+  }
+
+  /* 2. CHAT EKRANI: "WhatsApp" Hissi */
+  .chat-container {
+    width: 100% !important;
+    height: 100vh !important; /* Ekranı tam kapla */
+    max-height: none !important;
+    border-radius: 0 !important; /* Köşeleri dik yap */
+    box-shadow: none !important;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .chat-header {
+    padding: 1rem;
+    position: sticky; /* Üstte sabit kalsın */
+    top: 0;
+    z-index: 10;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+
+  .chat-messages {
+    padding: 1rem;
+    padding-bottom: 80px; /* Alttaki input için boşluk bırak */
+    background-color: #efe7dd; /* WhatsApp benzeri hafif krem tonu */
+    /* Opsiyonel: Chat arkaplan deseni eklenebilir */
+  }
+
+  .chat-input-area {
+    position: fixed; /* En alta sabitle */
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #fff;
+    padding: 10px;
+    box-sizing: border-box; /* Taşmaları engelle */
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+    z-index: 20;
+  }
+
+  /* Mesaj balonlarını mobilde biraz daha genişlet */
+  .message p {
+    max-width: 85%;
+    font-size: 1rem; /* Okunabilirliği artır */
+  }
+
+  /* 3. FORM EKRANLARI (Giriş & Kayıt) */
+  .form-container, .form-wrapper {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-shadow: none !important; /* Gölgeyi kaldır */
+    background-color: transparent !important; /* Arkaplanla bütünleşsin */
+    padding: 1rem !important;
+    margin: 0 !important;
+  }
+
+  .split-screen-container {
+    display: block !important; /* Yan yana değil alt alta */
+  }
+
+  .left-panel {
+    display: none !important; /* Mobilde soldaki resmi GİZLE (Sadeleştirme) */
+  }
+
+  .right-panel {
+    width: 100% !important;
+    padding: 1rem !important;
+  }
+
+  /* Input alanlarını parmak dostu yap */
+  .input-group input {
+    font-size: 16px !important; /* 16px altı olunca iPhone zoom yapar, bunu engelle */
+    padding: 15px !important; /* Daha geniş tıklama alanı */
+    background-color: #fff;
+  }
+
+  .btn {
+    padding: 15px !important; /* Butonu yükselt */
+    font-size: 1.1rem !important;
+    margin-top: 20px !important;
+    border-radius: 12px !important; /* Daha yuvarlak modern buton */
+  }
+
+  /* Başlıkları düzenle */
+  h2 { font-size: 1.5rem !important; }
+  h3 { font-size: 1.2rem !important; }
+}
+
