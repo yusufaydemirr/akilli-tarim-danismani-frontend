@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Akıllı Tarım - Danışman</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="chat-container">
+      <div class="chat-header">
+        <h2>Akıllı Tarım Danışmanı</h2>
+        <a href="index.html" class="logout-btn">Çıkış Yap</a>
+      </div>
+
+      <div class="chat-messages" id="chat-messages">
+        <div class="message bot-message">
+          <p>
+            Merhaba! Ben Akıllı Tarım Asistanı. Bitkinizin yaprak fotoğrafını
+            analiz etmem için lütfen 'Fotoğraf Yükle' butonunu kullanın veya bir
+            soru sorun.
+          </p>
+        </div>
+      </div>
+
+      <div class="chat-input-area">
+        <input
+          type="text"
+          id="message-input"
+          placeholder="Bir mesaj yazın..."
+        />
+
+        <button
+          class="btn upload-btn"
+          onclick="document.getElementById('file-input').click()"
+        >
+          📷 Fotoğraf Yükle
+        </button>
+        <input
+          type="file"
+          id="file-input"
+          accept="image/*"
+          style="display: none"
+        />
+
+        <button class="btn send-btn">Gönder</button>
+      </div>
+    </div>
+    <script>
+      // chat.html script kısmının EN BAŞINA ekle:
+      const { createClient } = supabase;
+      // Buraya kendi URL ve Key'ini tekrar yazmalısın veya global bir config dosyasından çekmelisin
+      const _supabase = createClient(
+        "https://sbhujxgjpduzwctekrkj.supabase.co",
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNiaHVqeGdqcGR1endjdGVrcmtqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE4NDY2OTUsImV4cCI6MjA3NzQyMjY5NX0.ikrDuarA7bbxHHgVboIdWuIuY-ilCXZH47ugNDtWqd4"
+      );
+
+      async function checkSession() {
+        const {
+          data: { session },
+        } = await _supabase.auth.getSession();
+        if (!session) {
+          // Oturum yoksa giriş sayfasına at
+          window.location.href = "index.html";
+        }
+      }
+      checkSession();
+      document.addEventListener("DOMContentLoaded", function () {
+        // 1. Gerekli HTML elementlerini seç
+        const messageInput = document.getElementById("message-input"); // Mesaj yazma kutusu
+        const sendButton = document.querySelector(".send-btn"); // Gönder butonu
+        const chatMessages = document.getElementById("chat-messages"); // Mesajların listelendiği alan
+
+        // 2. "Gönder" butonuna tıklandığında çalışacak fonksiyon
+        sendButton.addEventListener("click", sendMessage);
+
+        // 3. "Enter" tuşuna basıldığında çalışacak fonksiyon
+        messageInput.addEventListener("keydown", function (event) {
+          // Eğer basılan tuş "Enter" ise (ve Shift'e basılmıyorsa)
+          if (event.key === "Enter" && !event.shiftKey) {
+            event.preventDefault(); // Enter'ın varsayılan "yeni satır" işlemini engelle
+            sendMessage(); // Mesajı gönder
+          }
+        });
+
+        // 4. Ana Mesaj Gönderme Fonksiyonu
+        function sendMessage() {
+          const messageText = messageInput.value.trim(); // Yazılan metni al, boşlukları sil
+
+          // Eğer kutu boş değilse...
+          if (messageText !== "") {
+            // a) Kullanıcının mesajını ekrana bas
+            appendMessage(messageText, "user-message");
+
+            // b) Mesaj kutusunu temizle
+            messageInput.value = "";
+
+            // c) Arkadaşlarınız hazır olduğunda BU BÖLÜMÜ AÇACAĞIZ
+            // sendToN8N(messageText);
+
+            // d) ŞİMDİLİK: Sahte bot cevabı verelim (Mocking)
+            simulateBotResponse();
+          }
+        }
+
+        // 5. Mesajları Ekrana Basan Yardımcı Fonksiyon
+        function appendMessage(text, messageClass) {
+          // Yeni bir div oluştur
+          const messageDiv = document.createElement("div");
+          messageDiv.classList.add("message", messageClass); // 'message' ve 'user-message'/'bot-message'
+
+          // İçine metni paragraf olarak ekle
+          const paragraph = document.createElement("p");
+          paragraph.textContent = text;
+          messageDiv.appendChild(paragraph);
+
+          // Ana mesaj alanına bu yeni div'i ekle
+          chatMessages.appendChild(messageDiv);
+
+          // Mesaj listesini en alta kaydır
+          chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // 6. Sahte Bot Cevabı Fonksiyonu (Mocking)
+        function simulateBotResponse() {
+          // "Bot yazıyor..." mesajı ekle (opsiyonel ama şık)
+          const typingDiv = document.createElement("div");
+          typingDiv.classList.add("message", "bot-message");
+          typingDiv.id = "typing-indicator"; // Daha sonra silebilmek için ID ver
+          typingDiv.innerHTML = "<p>Bot yazıyor...</p>";
+          chatMessages.appendChild(typingDiv);
+          chatMessages.scrollTop = chatMessages.scrollHeight;
+
+          // 2 saniye sonra sahte bir cevap ver
+          setTimeout(function () {
+            // "Bot yazıyor..." mesajını sil
+            const typingIndicator = document.getElementById("typing-indicator");
+            if (typingIndicator) {
+              chatMessages.removeChild(typingIndicator);
+            }
+
+            // Sahte analiz sonucunu ekrana bas
+            const botResponse =
+              "Bu 'sahte' bir cevaptır. Arkadaşınız Python modelini bağladığında burada gerçek analizi göreceksiniz. Örnek: Bitkinizde 'Zeytin Yaprak Lekesi' tespit edildi.";
+            appendMessage(botResponse, "bot-message");
+          }, 2000); // 2000 milisaniye = 2 saniye
+        }
+      });
+    </script>
+  </body>
+</html>

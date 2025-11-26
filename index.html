@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Akıllı Tarım - Giriş</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  </head>
+  <body class="body-login-page">
+    <div class="form-container">
+      <form id="login-form">
+        <h2>Akıllı Tarım Danışmanı</h2>
+        <h3>Giriş Yap</h3>
+
+        <div class="input-group">
+          <label for="username">E-posta Adresi</label>
+          <input
+            type="email"
+            id="username"
+            name="username"
+            placeholder="ornek@mail.com"
+            required
+          />
+        </div>
+
+        <div class="input-group">
+          <label for="password">Şifre</label>
+          <input type="password" id="password" name="password" required />
+
+          <div class="password-toggle">
+            <input type="checkbox" id="show-password-toggle" />
+            <label for="show-password-toggle">Şifreyi Göster</label>
+          </div>
+
+          <div id="password-error" class="error-message"></div>
+        </div>
+
+        <div id="form-error" class="error-message"></div>
+
+        <button type="button" class="btn">Giriş Yap</button>
+
+        <p class="form-link">
+          Hesabınız yok mu? <a href="register.html">Kayıt Olun</a>
+        </p>
+      </form>
+    </div>
+
+    <script>
+      // --- 1. SUPABASE BAĞLANTISI ---
+      // Lütfen 'URL' ve 'ANON_KEY' kısımlarını kendi Supabase panelinizden aldıklarınızla değiştirin.
+      const SUPABASE_URL = "https://sbhujxgjpduzwctekrkj.supabase.co"; // BURAYI DEĞİŞTİRİN
+      const SUPABASE_KEY =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNiaHVqeGdqcGR1endjdGVrcmtqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE4NDY2OTUsImV4cCI6MjA3NzQyMjY5NX0.ikrDuarA7bbxHHgVboIdWuIuY-ilCXZH47ugNDtWqd4"; // BURAYI DEĞİŞTİRİN
+
+      const { createClient } = supabase; // Kütüphaneden fonksiyonu al
+      const _supabase = createClient(SUPABASE_URL, SUPABASE_KEY); // Bağlantıyı oluştur
+
+      console.log("Supabase İstemcisi Başlatıldı:", _supabase);
+
+      // --- 2. HTML ELEMENTLERİNİ SEÇME ---
+      document.addEventListener("DOMContentLoaded", function () {
+        const passwordInput = document.getElementById("password");
+        const passwordError = document.getElementById("password-error");
+        const formButton = document.querySelector("button.btn");
+        const showPasswordToggle = document.getElementById(
+          "show-password-toggle"
+        );
+        const capsLockWarning = document.getElementById("caps-lock-warning");
+        const registerForm = document.getElementById("register-form");
+        const loginForm = document.getElementById("login-form");
+        const formError = document.getElementById("form-error");
+
+        const adInput = document.getElementById("ad");
+        const soyadInput = document.getElementById("soyad");
+        const emailInput = document.getElementById("email");
+        const telefonInput = document.getElementById("telefon");
+        const usernameInput = document.getElementById("username"); // Giriş sayfası için
+
+        // --- 3. YARDIMCI FONKSİYONLAR (Caps Lock, Şifre Göster) ---
+        if (showPasswordToggle && passwordInput) {
+          showPasswordToggle.addEventListener("change", function () {
+            passwordInput.type = this.checked ? "text" : "password";
+          });
+        }
+        if (capsLockWarning && passwordInput) {
+          passwordInput.addEventListener("keyup", function (event) {
+            if (event.getModifierState("CapsLock")) {
+              capsLockWarning.textContent = "Caps Lock açık!";
+              capsLockWarning.style.display = "block";
+            } else {
+              capsLockWarning.style.display = "none";
+            }
+          });
+        }
+
+        // --- 4. FORM İŞLEYİCİLERİNİ ATA ---
+        if (registerForm) {
+          formButton.addEventListener("click", handleRegister);
+        } else if (loginForm) {
+          formButton.addEventListener("click", handleLogin);
+        }
+
+        // --- 5. YENİ KAYIT (REGISTER) FONKSİYONU ---
+        async function handleRegister(event) {
+          event.preventDefault();
+
+          // Hataları temizle
+          if (formError) formError.style.display = "none";
+          if (passwordError) passwordError.style.display = "none";
+
+          // Alan değerlerini al
+          const ad = adInput.value.trim();
+          const soyad = soyadInput.value.trim();
+          const email = emailInput.value.trim();
+          const telefon = telefonInput.value.trim();
+          const password = passwordInput.value; // Şifrede trim yapma, kuralları bozabilir
+
+          // Boş Alan Kontrolü
+          if (
+            ad === "" ||
+            soyad === "" ||
+            email === "" ||
+            telefon === "" ||
+            password === ""
+          ) {
+            if (formError) {
+              formError.innerHTML = "Tüm alanları doldurmak zorunludur.";
+              formError.style.display = "block";
+            }
+            return;
+          }
+
+          // Şifre Kısıtlama Kontrolü
+          const errors = [];
+          if (password.length < 8)
+            errors.push("Şifre en az 8 karakter olmalı.");
+          if (!/[A-Z]/.test(password))
+            errors.push("Şifre en az bir büyük harf içermeli.");
+          if (!/[a-z]/.test(password))
+            errors.push("Şifre en az bir küçük harf içermeli.");
+          if (!/[0-9]/.test(password))
+            errors.push("Şifre en az bir rakam içermeli.");
+          if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password))
+            errors.push("Şifre en az bir sembol (!@#$ vb.) içermeli.");
+
+          if (errors.length > 0) {
+            if (passwordError) {
+              passwordError.innerHTML = errors.join("<br>");
+              passwordError.style.display = "block";
+            }
+            passwordInput.focus();
+            return;
+          }
+
+          // --- SUPABASE KAYIT İŞLEMİ ---
+          formButton.textContent = "Kayıt Yapılıyor...";
+          formButton.disabled = true;
+
+          const { data, error } = await _supabase.auth.signUp({
+            email: email, // Supabase kimlik doğrulama için e-posta kullanır
+            password: password,
+            options: {
+              // Ekstra verileri buraya ekliyoruz
+              data: {
+                ad: ad,
+                soyad: soyad,
+                telefon: telefon,
+              },
+            },
+          });
+
+          if (error) {
+            // Hata varsa
+            console.error("Supabase Kayıt Hatası:", error.message);
+            if (error.message.includes("User already registered")) {
+              formError.innerHTML = "Bu e-posta adresi zaten kayıtlı.";
+            } else {
+              formError.innerHTML =
+                "Kayıt sırasında bir hata oluştu: " + error.message;
+            }
+            formError.style.display = "block";
+            formButton.textContent = "Kayıt Ol";
+            formButton.disabled = false;
+          } else {
+            // Başarılıysa
+            console.log("Supabase Kayıt Başarılı:", data);
+            alert(
+              "Kayıt Başarılı! E-postanıza gelen doğrulama linkine tıklayın. (Test için bu adımı atlayacağız)"
+            );
+            location.href = "index.html"; // Giriş sayfasına yönlendir
+          }
+        }
+
+        // --- 6. YENİ GİRİŞ (LOGIN) FONKSİYONU ---
+        async function handleLogin(event) {
+          event.preventDefault();
+
+          const username = usernameInput ? usernameInput.value.trim() : ""; // E-posta veya Telefon olabilir
+          const password = passwordInput ? passwordInput.value : ""; // <-- DÜZELTİLDİ
+
+          if (formError) formError.style.display = "none";
+          //...
+
+          if (username === "" || password === "") {
+            if (formError) {
+              formError.innerHTML =
+                "Lütfen e-posta adresinizi ve şifrenizi girin.";
+              formError.style.display = "block";
+            }
+            return;
+          }
+
+          // --- SUPABASE GİRİŞ İŞLEMİ ---
+          formButton.textContent = "Giriş Yapılıyor...";
+          formButton.disabled = true;
+
+          // Supabase e-posta veya telefon ile girişi destekler
+          const { data, error } = await _supabase.auth.signInWithPassword({
+            // Not: Supabase'e kayıt olurken ana kimlik email'dir.
+            // Telefon ile girişi ayrıca ayarlamamız gerekebilir. Şimdilik email ile deneyelim.
+            email: username,
+            password: password,
+          });
+
+          if (error) {
+            // Hata varsa
+            console.error("Supabase Giriş Hatası:", error.message);
+            if (error.message.includes("Invalid login credentials")) {
+              formError.innerHTML = "E-posta veya şifre hatalı.";
+            } else if (error.message.includes("Email not confirmed")) {
+              formError.innerHTML =
+                "Giriş yapmadan önce e-postanızı doğrulamanız gerekiyor.";
+            } else {
+              formError.innerHTML = "Giriş hatası: " + error.message;
+            }
+            formError.style.display = "block";
+            formButton.textContent = "Giriş Yap";
+            formButton.disabled = false;
+          } else {
+            // Başarılıysa
+            console.log("Supabase Giriş Başarılı:", data);
+            location.href = "chat.html"; // Chat sayfasına yönlendir
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
