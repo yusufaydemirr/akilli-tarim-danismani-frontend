@@ -603,5 +603,136 @@ body.body-login-page {
   h2 { font-size: 1.5rem !important; }
   h3 { font-size: 1.2rem !important; }
 }
+/* =========================================
+   MOBİL DÜZELTME (GARANTİLİ VERSİYON)
+   Düzeni bozmadan sadece ikonları değiştirir
+   style.css en altına yapıştır
+   ========================================= */
+
+@media (max-width: 768px) {
+
+  /* --- 1. EKRAN VE YAPI (Burası ekranın kaymasını engeller) --- */
+  html, body {
+    height: 100%;
+    overflow: hidden; 
+    margin: 0;
+  }
+
+  .chat-container {
+    width: 100% !important;
+    height: 100dvh !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding-bottom: 90px; /* Mesajlar butonun altında kalmasın */
+  }
+
+  /* --- 2. HEADER DÜZENLEMESİ (Çıkış Butonu Burda) --- */
+  .chat-header {
+    padding: 10px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .chat-header h2 {
+    font-size: 1.1rem; /* Başlığı biraz kibarlaştırdık */
+    margin: 0;
+  }
+
+  /* ÇIKIŞ BUTONU: Yazıyı gizle, Oku göster */
+  .logout-btn {
+    font-size: 0 !important; /* "Çıkış Yap" yazısını yok et */
+    width: 35px;
+    height: 35px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 50%; /* Yuvarlak */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 !important;
+  }
+  
+  .logout-btn::after {
+    content: '➔'; /* Ok ikonu */
+    color: white;
+    font-size: 18px;
+    transform: rotate(180deg); /* Oku dışarı çevir */
+  }
+
+  /* --- 3. ALT BAR (Yazma Alanı) --- */
+  .chat-input-area {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #fff;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-top: 1px solid #eee;
+    z-index: 100;
+    padding-bottom: calc(8px + env(safe-area-inset-bottom));
+  }
+
+  /* Input Kutusu */
+  .chat-input-area input[type="text"] {
+    flex: 1;
+    margin: 0 !important;
+    height: 40px;
+    border-radius: 20px;
+    padding-left: 15px !important;
+    font-size: 16px !important;
+  }
+
+  /* --- 4. BUTONLAR (Fotoğraf ve Gönder) --- */
+  .chat-input-area .btn {
+    width: 40px !important;
+    height: 40px !important;
+    padding: 0 !important;
+    border-radius: 50% !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 !important;
+    flex-shrink: 0;
+  }
+
+  /* FOTOĞRAF BUTONU: Modern Gri Artı (+) */
+  .upload-btn {
+    font-size: 0 !important;
+    background-color: #f0f2f5; /* Gri renk */
+    margin-right: -2px !important;
+  }
+  
+  .upload-btn::after {
+    content: '+'; /* Artı işareti */
+    font-size: 26px;
+    color: #555; /* Koyu gri ikon */
+    font-weight: 400;
+    margin-top: -2px;
+  }
+
+  /* GÖNDER BUTONU: Yeşil Ok */
+  .send-btn {
+    font-size: 0 !important;
+    background-color: var(--primary-color);
+  }
+
+  .send-btn::after {
+    content: '➤';
+    font-size: 18px;
+    color: white;
+    margin-left: -2px;
+  }
+}
 
 
