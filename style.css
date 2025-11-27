@@ -603,137 +603,125 @@ body.body-login-page {
   h2 { font-size: 1.5rem !important; }
   h3 { font-size: 1.2rem !important; }
 }
-/* =========================================
-   MOBİL DÜZELTME (GARANTİLİ VERSİYON)
-   Düzeni bozmadan sadece ikonları değiştirir
-   style.css en altına yapıştır
-   ========================================= */
-
+/* PARÇA 1: GENEL MOBİL AYARLARI (Giriş/Kayıt Scroll Düzelmesi) */
 @media (max-width: 768px) {
-
-  /* --- 1. EKRAN VE YAPI (Burası ekranın kaymasını engeller) --- */
+  
+  /* Varsayılan olarak kaydırmayı serbest bırakıyoruz */
   html, body {
-    height: 100%;
-    overflow: hidden; 
-    margin: 0;
+    height: auto !important;
+    overflow-y: auto !important; /* Kaydırma açık */
+    position: static !important; /* Sabitlemeyi kaldır */
   }
 
-  .chat-container {
+  /* Formların mobildeki görünümü */
+  .form-container, .form-wrapper {
     width: 100% !important;
-    height: 100dvh !important;
+    box-shadow: none !important;
+    padding: 10px !important;
+    margin-top: 20px !important;
+  }
+
+  /* Split screen yapısını mobilde alt alta al */
+  .split-screen-container {
+    display: block !important;
+  }
+  .left-panel { display: none !important; } /* Resmi gizle */
+  .right-panel { width: 100% !important; padding: 10px !important; }
+}
+
+/* PARÇA 2: SADECE CHAT EKRANI İÇİN ÖZEL AYARLAR */
+@media (max-width: 768px) {
+
+  /* Chat sayfası için özel kilit (Sadece chat container varken) */
+  .chat-container {
+    position: fixed; /* Ekranı sadece burada sabitliyoruz */
+    top: 0;
+    left: 0;
+    width: 100% !important;
+    height: 100dvh !important; /* Ekranı tam kapla */
     margin: 0 !important;
     border-radius: 0 !important;
-    box-shadow: none !important;
+    z-index: 999; /* En üstte dursun */
+    background: #fff;
     display: flex;
     flex-direction: column;
   }
 
+  /* Mesajların kaydığı alan */
   .chat-messages {
     flex: 1;
-    overflow-y: auto;
-    padding-bottom: 90px; /* Mesajlar butonun altında kalmasın */
+    overflow-y: auto !important; /* Mesajlar kaysın */
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 90px;
   }
 
-  /* --- 2. HEADER DÜZENLEMESİ (Çıkış Butonu Burda) --- */
+  /* Chat Başlığı */
   .chat-header {
     padding: 10px 15px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-shrink: 0;
   }
+  .chat-header h2 { font-size: 1.1rem; }
 
-  .chat-header h2 {
-    font-size: 1.1rem; /* Başlığı biraz kibarlaştırdık */
-    margin: 0;
-  }
-
-  /* ÇIKIŞ BUTONU: Yazıyı gizle, Oku göster */
+  /* ÇIKIŞ BUTONU (Geri Oku) */
   .logout-btn {
-    font-size: 0 !important; /* "Çıkış Yap" yazısını yok et */
-    width: 35px;
-    height: 35px;
+    font-size: 0 !important;
+    width: 35px; height: 35px;
     background-color: rgba(255, 255, 255, 0.2);
-    border-radius: 50%; /* Yuvarlak */
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    border-radius: 50%;
+    display: flex; justify-content: center; align-items: center;
     padding: 0 !important;
   }
-  
   .logout-btn::after {
-    content: '➔'; /* Ok ikonu */
-    color: white;
-    font-size: 18px;
-    transform: rotate(180deg); /* Oku dışarı çevir */
+    content: '➔'; color: white; font-size: 18px; transform: rotate(180deg);
   }
 
-  /* --- 3. ALT BAR (Yazma Alanı) --- */
+  /* ALT BAR (Yazma Alanı) */
   .chat-input-area {
     position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
+    bottom: 0; left: 0; width: 100%;
     background: #fff;
     padding: 8px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    display: flex; align-items: center; gap: 8px;
     border-top: 1px solid #eee;
-    z-index: 100;
     padding-bottom: calc(8px + env(safe-area-inset-bottom));
   }
 
-  /* Input Kutusu */
+  /* Yazı Kutusu (Hap Şekli) */
   .chat-input-area input[type="text"] {
-    flex: 1;
-    margin: 0 !important;
-    height: 40px;
+    flex: 1; margin: 0 !important; height: 40px;
     border-radius: 20px;
-    padding-left: 15px !important;
-    font-size: 16px !important;
+    background-color: #f0f2f5; border: none;
+    padding-left: 15px !important; font-size: 16px !important;
   }
 
-  /* --- 4. BUTONLAR (Fotoğraf ve Gönder) --- */
+  /* Buton Genel Ayarı */
   .chat-input-area .btn {
-    width: 40px !important;
-    height: 40px !important;
-    padding: 0 !important;
+    width: 40px !important; height: 40px !important;
+    padding: 0 !important; margin: 0 !important;
     border-radius: 50% !important;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0 !important;
+    display: flex; justify-content: center; align-items: center;
     flex-shrink: 0;
   }
 
-  /* FOTOĞRAF BUTONU: Modern Gri Artı (+) */
+  /* ART (+) BUTONU */
   .upload-btn {
-    font-size: 0 !important;
-    background-color: #f0f2f5; /* Gri renk */
-    margin-right: -2px !important;
+    font-size: 0 !important; background-color: #f0f2f5; margin-right: -2px !important;
   }
-  
   .upload-btn::after {
-    content: '+'; /* Artı işareti */
-    font-size: 26px;
-    color: #555; /* Koyu gri ikon */
-    font-weight: 400;
-    margin-top: -2px;
+    content: '+'; font-size: 26px; color: #555; font-weight: 400; margin-top: -2px;
   }
 
-  /* GÖNDER BUTONU: Yeşil Ok */
+  /* GÖNDER (OK) BUTONU */
   .send-btn {
-    font-size: 0 !important;
-    background-color: var(--primary-color);
+    font-size: 0 !important; background-color: var(--primary-color);
   }
-
   .send-btn::after {
-    content: '➤';
-    font-size: 18px;
-    color: white;
-    margin-left: -2px;
+    content: '➤'; font-size: 18px; color: white; margin-left: -2px;
   }
 }
+
+
+
 
 
 
