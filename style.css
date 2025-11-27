@@ -604,4 +604,99 @@ body.body-login-page {
   h2 { font-size: 1.5rem !important; }
   h3 { font-size: 1.2rem !important; }
 }
+/* =========================================
+   MOBİL İÇİN PROFESYONEL CHAT DÜZENİ
+   (Masaüstünde yazı görünür, mobilde sadece ikon olur)
+   ========================================= */
+
+@media (max-width: 768px) {
+
+  /* 1. Sayfa ve Chat Kutusu Sabitleme */
+  html, body {
+    height: 100%;
+    margin: 0;
+    overflow: hidden; /* Sayfa kaymasını engelle */
+  }
+
+  .chat-container {
+    width: 100% !important;
+    height: 100% !important;
+    height: 100dvh !important; /* Tarayıcı çubuğunu hesapla */
+    margin: 0 !important;
+    border-radius: 0 !important;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .chat-messages {
+    flex: 1; /* Kalan tüm alanı kapla */
+    padding-bottom: 80px; /* Alttaki barın altında yazı kalmasın */
+  }
+
+  /* 2. ALT BAR (Yazışma Alanı) */
+  .chat-input-area {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #fff;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Öğeler arası boşluk */
+    border-top: 1px solid #eee;
+    z-index: 999;
+    /* iPhone güvenli alan boşluğu */
+    padding-bottom: calc(8px + env(safe-area-inset-bottom));
+  }
+
+  /* 3. İNPUT (Yazı Kutusu) */
+  .chat-input-area input[type="text"] {
+    flex: 1; /* Tüm boşluğu bu doldursun */
+    margin: 0 !important;
+    height: 40px;
+    border-radius: 20px;
+    padding-left: 15px !important;
+    font-size: 16px !important; /* iPhone zoom'unu engeller */
+  }
+
+  /* 4. BUTONLAR (Sihirli Kısım Burası) */
+  .chat-input-area .btn {
+    width: 40px !important;  /* Yuvarlak olması için kare boyut */
+    height: 40px !important;
+    padding: 0 !important;   /* İç boşluğu sıfırla */
+    border-radius: 50% !important; /* Tam yuvarlak */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 !important;
+    flex-shrink: 0; /* Asla sıkışmasın */
+  }
+
+  /* FOTOĞRAF BUTONU: Yazıyı gizle, İkon koy */
+  .upload-btn {
+    font-size: 0 !important; /* "Fotoğraf Yükle" yazısını görünmez yap */
+    background-color: #607d8b; /* Gri renk */
+  }
+  
+  .upload-btn::after {
+    content: '📷'; /* Yerine kamera emojisi koy */
+    font-size: 20px;
+    color: white;
+  }
+
+  /* GÖNDER BUTONU: Yazıyı gizle, Ok işareti koy */
+  .send-btn {
+    font-size: 0 !important;
+    background-color: #38761d; /* Yeşil renk */
+  }
+
+  .send-btn::after {
+    content: '➤'; /* Ok işareti */
+    font-size: 20px;
+    color: white;
+    margin-left: -2px; /* Ortalamayı düzelt */
+  }
+}
+
 
