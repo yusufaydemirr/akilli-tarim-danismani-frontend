@@ -604,56 +604,66 @@ body.body-login-page {
   h3 { font-size: 1.2rem !important; }
 }
 /* =========================================
-   MOBİL DÜZELTME (GARANTİLİ VERSİYON)
-   Düzeni bozmadan sadece ikonları değiştirir
+   MOBİL CHAT DÜZELTMESİ (SCROLL FIX VERSİYON)
+   Kaydırma sorununu çözer + Butonlar ikonludur
    style.css en altına yapıştır
    ========================================= */
 
 @media (max-width: 768px) {
 
-  /* --- 1. EKRAN VE YAPI (Burası ekranın kaymasını engeller) --- */
+  /* 1. EKRAN YAPISI - Scroll Kilidini Düzenledik */
   html, body {
     height: 100%;
-    overflow: hidden; 
     margin: 0;
+    /* overflow: hidden;  <-- Bunu kaldırdık, bazen kilitleme yapıyor */
+    position: fixed; /* Sayfanın lastik gibi oynamasını engeller */
+    width: 100%;
+    top: 0;
+    left: 0;
   }
 
   .chat-container {
     width: 100% !important;
-    height: 100dvh !important;
+    height: 100% !important; /* dvh yerine % kullandık, daha güvenli */
     margin: 0 !important;
     border-radius: 0 !important;
     box-shadow: none !important;
     display: flex;
     flex-direction: column;
+    background-color: #fff;
   }
 
+  /* 2. MESAJ ALANI - Kaydırma Buraya Eklendi */
   .chat-messages {
-    flex: 1;
-    overflow-y: auto;
-    padding-bottom: 90px; /* Mesajlar butonun altında kalmasın */
+    flex: 1; /* Alanı kapla */
+    overflow-y: auto !important; /* Dikey kaydırmayı ZORLA */
+    -webkit-overflow-scrolling: touch; /* iPhone için pürüzsüz kaydırma */
+    padding-bottom: 90px; /* Alttaki barın altında yazı kalmasın */
+    min-height: 0; /* Flexbox scroll hatasını önler */
   }
 
-  /* --- 2. HEADER DÜZENLEMESİ (Çıkış Butonu Burda) --- */
+  /* 3. HEADER (Çıkış Butonu) */
   .chat-header {
     padding: 10px 15px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-shrink: 0; /* Header asla büzüşmesin */
+    z-index: 10;
   }
 
   .chat-header h2 {
-    font-size: 1.1rem; /* Başlığı biraz kibarlaştırdık */
+    font-size: 1.1rem;
     margin: 0;
   }
 
-  /* ÇIKIŞ BUTONU: Yazıyı gizle, Oku göster */
+  /* ÇIKIŞ BUTONU: Geri Oku */
   .logout-btn {
-    font-size: 0 !important; /* "Çıkış Yap" yazısını yok et */
+    font-size: 0 !important;
     width: 35px;
     height: 35px;
     background-color: rgba(255, 255, 255, 0.2);
-    border-radius: 50%; /* Yuvarlak */
+    border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -661,13 +671,13 @@ body.body-login-page {
   }
   
   .logout-btn::after {
-    content: '➔'; /* Ok ikonu */
+    content: '➔';
     color: white;
     font-size: 18px;
-    transform: rotate(180deg); /* Oku dışarı çevir */
+    transform: rotate(180deg);
   }
 
-  /* --- 3. ALT BAR (Yazma Alanı) --- */
+  /* 4. ALT BAR (Yazma Alanı) */
   .chat-input-area {
     position: absolute;
     bottom: 0;
@@ -683,7 +693,6 @@ body.body-login-page {
     padding-bottom: calc(8px + env(safe-area-inset-bottom));
   }
 
-  /* Input Kutusu */
   .chat-input-area input[type="text"] {
     flex: 1;
     margin: 0 !important;
@@ -693,7 +702,7 @@ body.body-login-page {
     font-size: 16px !important;
   }
 
-  /* --- 4. BUTONLAR (Fotoğraf ve Gönder) --- */
+  /* 5. BUTONLAR (Modern İkonlar) */
   .chat-input-area .btn {
     width: 40px !important;
     height: 40px !important;
@@ -706,22 +715,22 @@ body.body-login-page {
     flex-shrink: 0;
   }
 
-  /* FOTOĞRAF BUTONU: Modern Gri Artı (+) */
+  /* Fotoğraf Butonu: Gri Artı (+) */
   .upload-btn {
     font-size: 0 !important;
-    background-color: #f0f2f5; /* Gri renk */
+    background-color: #f0f2f5; 
     margin-right: -2px !important;
   }
   
   .upload-btn::after {
-    content: '+'; /* Artı işareti */
+    content: '+';
     font-size: 26px;
-    color: #555; /* Koyu gri ikon */
+    color: #555;
     font-weight: 400;
     margin-top: -2px;
   }
 
-  /* GÖNDER BUTONU: Yeşil Ok */
+  /* Gönder Butonu: Yeşil Ok */
   .send-btn {
     font-size: 0 !important;
     background-color: var(--primary-color);
@@ -734,5 +743,6 @@ body.body-login-page {
     margin-left: -2px;
   }
 }
+
 
 
