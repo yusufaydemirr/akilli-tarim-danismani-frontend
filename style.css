@@ -454,248 +454,161 @@ body.body-form-page {
   letter-spacing: 0.8px;
 }
 
-/* 5. Mobil Uyumluluk */
-@media (max-width: 900px) {
-  .split-screen-container {
-    flex-direction: column; /* Dikeyde hizala */
-  }
-
-  .split-panel {
-    width: 100% !important; /* !important ile ezelim */
-    min-height: auto;
-  }
-
-  .left-panel {
-    min-height: 300px; /* Resim için sabit yükseklik */
-    padding: 1.5rem;
-  }
-
-  .right-panel {
-    padding: 2rem 1.5rem; /* Mobilde daha az boşluk */
-  }
-
-  .brand-content h2 {
-    font-size: 1.8rem;
-  }
-  .brand-content p {
-    font-size: 1rem;
-  }
-}
-
-/* 1. Kayıt sayfasının (split-screen) ana arka planını ve ortalamasını iptal et */
-body.body-register-page {
-  background-image: none;
-  display: block; /* Ana body'nin flex ortalamasını iptal et */
-  align-items: normal;
-  justify-content: normal;
-}
-
-/* 2. Giriş sayfasının (floating box) panelini sola yasla (eskiden istediğiniz gibi) */
-body.body-login-page {
-  justify-content: flex-start;
-  padding-left: 15vw;
-  align-items: center;
-}
-
-/* 3. Giriş sayfasının mobilde sola yaslamasını iptal edip ortala */
-@media (max-width: 768px) {
-  body.body-login-page {
-    justify-content: center;
-    padding-left: 0;
-  }
-}
 /* =========================================
-   MOBİL İYİLEŞTİRMELERİ (STYLE.CSS EN ALTINA EKLE)
+   PREMIUM MOBİL ARAYÜZ (style.css EN ALTINA)
    ========================================= */
 
 @media (max-width: 768px) {
 
-  /* 1. GENEL AYARLAR */
-  body {
-    /* Mobilde o soldaki boşluğu sıfırla */
-    padding-left: 0 !important;
-    justify-content: center !important;
-    background-image: none; /* Mobilde arkaplan resmini kaldır, sade olsun */
-    background-color: #f5f7f9; /* Hafif gri modern bir ton */
+  /* 1. EKRAN YAPISI */
+  html, body {
+    height: 100%;
+    margin: 0;
+    overflow: hidden; /* Sayfa kaymasını kilitler */
+    background-color: #ffffff;
   }
 
-  /* 2. CHAT EKRANI: "WhatsApp" Hissi */
   .chat-container {
     width: 100% !important;
-    height: 100vh !important; /* Ekranı tam kapla */
-    max-height: none !important;
-    border-radius: 0 !important; /* Köşeleri dik yap */
+    height: 100dvh !important; /* Ekranı tam kapla */
+    margin: 0 !important;
+    border-radius: 0 !important;
     box-shadow: none !important;
     display: flex;
     flex-direction: column;
   }
 
+  /* 2. HEADER (Üst Başlık) - Daha İnce ve Şık */
   .chat-header {
-    padding: 1rem;
-    position: sticky; /* Üstte sabit kalsın */
-    top: 0;
+    background-color: var(--primary-color);
+    padding: 12px 16px; /* Daha az boşluk, daha kibar */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.1);
     z-index: 10;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
   }
 
-  .chat-messages {
-    padding: 1rem;
-    padding-bottom: 80px; /* Alttaki input için boşluk bırak */
-    background-color: #efe7dd; /* WhatsApp benzeri hafif krem tonu */
-    /* Opsiyonel: Chat arkaplan deseni eklenebilir */
-  }
-
-  .chat-input-area {
-    position: fixed; /* En alta sabitle */
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background-color: #fff;
-    padding: 10px;
-    box-sizing: border-box; /* Taşmaları engelle */
-    box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
-    z-index: 20;
-  }
-
-  /* Mesaj balonlarını mobilde biraz daha genişlet */
-  .message p {
-    max-width: 85%;
-    font-size: 1rem; /* Okunabilirliği artır */
-  }
-
-  /* 3. FORM EKRANLARI (Giriş & Kayıt) */
-  .form-container, .form-wrapper {
-    width: 100% !important;
-    max-width: 100% !important;
-    box-shadow: none !important; /* Gölgeyi kaldır */
-    background-color: transparent !important; /* Arkaplanla bütünleşsin */
-    padding: 1rem !important;
-    margin: 0 !important;
-  }
-
-  .split-screen-container {
-    display: block !important; /* Yan yana değil alt alta */
-  }
-
-  .left-panel {
-    display: none !important; /* Mobilde soldaki resmi GİZLE (Sadeleştirme) */
-  }
-
-  .right-panel {
-    width: 100% !important;
-    padding: 1rem !important;
-  }
-
-  /* Input alanlarını parmak dostu yap */
-  .input-group input {
-    font-size: 16px !important; /* 16px altı olunca iPhone zoom yapar, bunu engelle */
-    padding: 15px !important; /* Daha geniş tıklama alanı */
-    background-color: #fff;
-  }
-
-  .btn {
-    padding: 15px !important; /* Butonu yükselt */
-    font-size: 1.1rem !important;
-    margin-top: 20px !important;
-    border-radius: 12px !important; /* Daha yuvarlak modern buton */
-  }
-
-  /* Başlıkları düzenle */
-  h2 { font-size: 1.5rem !important; }
-  h3 { font-size: 1.2rem !important; }
-}
-/* =========================================
-   MOBİL İÇİN PROFESYONEL CHAT DÜZENİ
-   (Masaüstünde yazı görünür, mobilde sadece ikon olur)
-   ========================================= */
-
-@media (max-width: 768px) {
-
-  /* 1. Sayfa ve Chat Kutusu Sabitleme */
-  html, body {
-    height: 100%;
+  .chat-header h2 {
+    font-size: 1.1rem !important; /* Yazıyı küçülttük */
+    font-weight: 500;
     margin: 0;
-    overflow: hidden; /* Sayfa kaymasını engelle */
   }
 
-  .chat-container {
-    width: 100% !important;
-    height: 100% !important;
-    height: 100dvh !important; /* Tarayıcı çubuğunu hesapla */
-    margin: 0 !important;
-    border-radius: 0 !important;
+  /* ÇIKIŞ BUTONU - Sadece İkon Gibi Görünsün */
+  .logout-btn {
+    font-size: 0 !important; /* Yazıyı gizle */
+    background-color: rgba(255, 255, 255, 0.2); /* Yarı saydam beyaz */
+    width: 36px;
+    height: 36px;
+    border-radius: 50%; /* Yuvarlak buton */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+  }
+
+  .logout-btn::after {
+    content: '➔'; /* Çıkış ikonu */
+    font-size: 18px;
+    color: white;
+    transform: rotate(180deg); /* Oku dışarı baktır */
+  }
+
+  /* 3. MESAJ ALANI */
+  .chat-messages {
+    flex: 1;
+    background-color: #f7f7f7; /* Çok açık gri, göz yormaz */
+    padding: 15px;
+    padding-bottom: 90px;
+    /* Mesajları daha modern yapalım */
     display: flex;
     flex-direction: column;
+    gap: 10px;
   }
 
-  .chat-messages {
-    flex: 1; /* Kalan tüm alanı kapla */
-    padding-bottom: 80px; /* Alttaki barın altında yazı kalmasın */
+  .message p {
+    font-size: 0.95rem;
+    padding: 10px 14px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05); /* Hafif gölge */
   }
 
-  /* 2. ALT BAR (Yazışma Alanı) */
+  /* 4. ALT BAR (Yazma Alanı) - iOS Tarzı */
   .chat-input-area {
     position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
-    background: #fff;
-    padding: 8px;
+    background-color: #fff;
+    padding: 10px 12px;
+    border-top: 1px solid #f0f0f0;
     display: flex;
     align-items: center;
-    gap: 8px; /* Öğeler arası boşluk */
-    border-top: 1px solid #eee;
-    z-index: 999;
-    /* iPhone güvenli alan boşluğu */
-    padding-bottom: calc(8px + env(safe-area-inset-bottom));
+    gap: 10px;
+    /* iPhone güvenli alan */
+    padding-bottom: calc(10px + env(safe-area-inset-bottom));
+    z-index: 20;
   }
 
-  /* 3. İNPUT (Yazı Kutusu) */
+  /* 5. INPUT ALANI - Gri Hap Şeklinde */
   .chat-input-area input[type="text"] {
-    flex: 1; /* Tüm boşluğu bu doldursun */
+    flex: 1;
+    height: 42px;
+    background-color: #f0f2f5; /* WhatsApp input rengi */
+    border: none !important; /* Kenarlığı kaldır */
+    border-radius: 21px; /* Tam yuvarlak köşeler */
+    padding-left: 16px !important;
+    font-size: 16px !important;
     margin: 0 !important;
-    height: 40px;
-    border-radius: 20px;
-    padding-left: 15px !important;
-    font-size: 16px !important; /* iPhone zoom'unu engeller */
+  }
+  
+  .chat-input-area input[type="text"]:focus {
+    background-color: #eef3f0; /* Tıklayınca hafif renk değişsin */
+    box-shadow: none !important;
   }
 
-  /* 4. BUTONLAR (Sihirli Kısım Burası) */
+  /* 6. BUTONLAR GENEL AYAR */
   .chat-input-area .btn {
-    width: 40px !important;  /* Yuvarlak olması için kare boyut */
-    height: 40px !important;
-    padding: 0 !important;   /* İç boşluğu sıfırla */
-    border-radius: 50% !important; /* Tam yuvarlak */
+    width: 42px !important;
+    height: 42px !important;
+    padding: 0 !important;
+    border-radius: 50% !important;
     display: flex;
     justify-content: center;
     align-items: center;
     margin: 0 !important;
-    flex-shrink: 0; /* Asla sıkışmasın */
+    flex-shrink: 0;
+    box-shadow: none; /* Mobilde gölgeyi kaldır, sade olsun */
   }
 
-  /* FOTOĞRAF BUTONU: Yazıyı gizle, İkon koy */
+  /* 7. YÜKLEME BUTONU (Gri Artı İşareti - En Moderni) */
   .upload-btn {
-    font-size: 0 !important; /* "Fotoğraf Yükle" yazısını görünmez yap */
-    background-color: #607d8b; /* Gri renk */
+    font-size: 0 !important;
+    background-color: #f0f2f5; /* Input ile aynı renk */
+    margin-right: -2px !important; /* Inputa yaklaştır */
   }
   
   .upload-btn::after {
-    content: '📎'; /* Yerine kamera emojisi koy */
-    font-size: 20px;
-    color: white;
+    content: '+'; /* Artı işareti */
+    font-size: 28px;
+    color: #606770; /* Koyu gri */
+    font-weight: 300;
+    margin-top: -2px; /* Ortala */
   }
 
-  /* GÖNDER BUTONU: Yazıyı gizle, Ok işareti koy */
+  /* 8. GÖNDER BUTONU (Yeşil Ok) */
   .send-btn {
     font-size: 0 !important;
-    background-color: #38761d; /* Yeşil renk */
+    background-color: var(--primary-color);
+    transform: scale(0.95); /* Biraz kibar dursun */
   }
 
   .send-btn::after {
-    content: '➤'; /* Ok işareti */
-    font-size: 20px;
+    content: '➤';
+    font-size: 18px;
     color: white;
-    margin-left: -2px; /* Ortalamayı düzelt */
+    margin-left: -2px;
   }
 }
 
