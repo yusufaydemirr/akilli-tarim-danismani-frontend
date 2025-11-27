@@ -680,7 +680,7 @@ body.body-login-page {
   }
   
   .upload-btn::after {
-    content: '📷'; /* Yerine kamera emojisi koy */
+    content: '🖼️'; /* Yerine kamera emojisi koy */
     font-size: 20px;
     color: white;
   }
@@ -698,5 +698,6 @@ body.body-login-page {
     margin-left: -2px; /* Ortalamayı düzelt */
   }
 }
+
 
 
