@@ -453,6 +453,57 @@ body.body-form-page {
   font-size: 1.6rem;
   letter-spacing: 0.8px;
 }
+/* 5. Mobil Uyumluluk */
+@media (max-width: 900px) {
+  .split-screen-container {
+    flex-direction: column; /* Dikeyde hizala */
+  }
+
+  .split-panel {
+    width: 100% !important; /* !important ile ezelim */
+    min-height: auto;
+  }
+
+  .left-panel {
+    min-height: 300px; /* Resim için sabit yükseklik */
+    padding: 1.5rem;
+  }
+
+  .right-panel {
+    padding: 2rem 1.5rem; /* Mobilde daha az boşluk */
+  }
+
+  .brand-content h2 {
+    font-size: 1.8rem;
+  }
+  .brand-content p {
+    font-size: 1rem;
+  }
+}
+
+/* 1. Kayıt sayfasının (split-screen) ana arka planını ve ortalamasını iptal et */
+body.body-register-page {
+  background-image: none;
+  display: block; /* Ana body'nin flex ortalamasını iptal et */
+  align-items: normal;
+  justify-content: normal;
+}
+
+/* 2. Giriş sayfasının (floating box) panelini sola yasla (eskiden istediğiniz gibi) */
+body.body-login-page {
+  justify-content: flex-start;
+  padding-left: 15vw;
+  align-items: center;
+}
+
+/* 3. Giriş sayfasının mobilde sola yaslamasını iptal edip ortala */
+@media (max-width: 768px) {
+  body.body-login-page {
+    justify-content: center;
+    padding-left: 0;
+  }
+}
+
 
 /* =========================================
    PREMIUM MOBİL ARAYÜZ (style.css EN ALTINA)
@@ -611,6 +662,7 @@ body.body-form-page {
     margin-left: -2px;
   }
 }
+
 
 
 
